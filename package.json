@@ -1,6 +1,6 @@
 {
-  "name": "mock-server",
-  "version": "1.0.0",
+  "name": "mock-server-local-dev",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {

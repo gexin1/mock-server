@@ -1,12 +1,12 @@
 const jsonHandle = require("../file-hanlde/json-handle")
 const jsHandle = require("../file-hanlde/js-handle");
-const imageHandle = require("../file-hanlde/image-handle")
+const fileHandle = require("../file-hanlde/file-handle")
 const path = require("path");
 const {
     mockDir
 } = require("../../mock-server.config")
 const fse = require("fs-extra");
-const fileExts = ['.json', '.js', '.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp'];
+const fileExts = ['.json', '.js', '.html', '.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp'];
 module.exports = async ctx => {
     let url = ctx.request.url;
     let fileDir = path.join(mockDir, url);
@@ -44,8 +44,8 @@ module.exports = async ctx => {
             jsHandle(ctx);
             return;
         }
-        if (/\.(png|svg|jpe?g|gif)$/.test(url)) {
-            imageHandle(ctx);
+        if (/\.(png|svg|jpe?g|gif|html)$/.test(url)) {
+            fileHandle(ctx);
             return;
         }
     } catch (error) {
