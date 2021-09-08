@@ -1,0 +1,142 @@
+{
+    "code": "code",
+    "data": [
+        {
+            "inviteNumbers": 0,
+            "total": 15,
+            "inviteNumberRanking": 0,
+            "name": "data_0_name",
+            "totalBalanc": 0,
+            "dailyAverageBalanceRanking": 0,
+            "dailyAverageBalance": 0
+        },
+        {
+            "inviteNumbers": 1,
+            "total": 15,
+            "inviteNumberRanking": 1,
+            "name": "data_1_name",
+            "totalBalanc": 1,
+            "dailyAverageBalanceRanking": 1,
+            "dailyAverageBalance": 1
+        },
+        {
+            "inviteNumbers": 2,
+            "total": 15,
+            "inviteNumberRanking": 2,
+            "name": "data_2_name",
+            "totalBalanc": 2,
+            "dailyAverageBalanceRanking": 2,
+            "dailyAverageBalance": 2
+        },
+        {
+            "inviteNumbers": 3,
+            "total": 15,
+            "inviteNumberRanking": 3,
+            "name": "data_3_name",
+            "totalBalanc": 3,
+            "dailyAverageBalanceRanking": 3,
+            "dailyAverageBalance": 3
+        },
+        {
+            "inviteNumbers": 4,
+            "total": 15,
+            "inviteNumberRanking": 4,
+            "name": "data_4_name",
+            "totalBalanc": 4,
+            "dailyAverageBalanceRanking": 4,
+            "dailyAverageBalance": 4
+        },
+        {
+            "inviteNumbers": 5,
+            "total": 15,
+            "inviteNumberRanking": 5,
+            "name": "data_5_name",
+            "totalBalanc": 5,
+            "dailyAverageBalanceRanking": 5,
+            "dailyAverageBalance": 5
+        },
+        {
+            "inviteNumbers": 6,
+            "total": 15,
+            "inviteNumberRanking": 6,
+            "name": "data_6_name",
+            "totalBalanc": 6,
+            "dailyAverageBalanceRanking": 6,
+            "dailyAverageBalance": 6
+        },
+        {
+            "inviteNumbers": 7,
+            "total": 15,
+            "inviteNumberRanking": 7,
+            "name": "data_7_name",
+            "totalBalanc": 7,
+            "dailyAverageBalanceRanking": 7,
+            "dailyAverageBalance": 7
+        },
+        {
+            "inviteNumbers": 8,
+            "total": 15,
+            "inviteNumberRanking": 8,
+            "name": "data_8_name",
+            "totalBalanc": 8,
+            "dailyAverageBalanceRanking": 8,
+            "dailyAverageBalance": 8
+        },
+        {
+            "inviteNumbers": 9,
+            "total": 15,
+            "inviteNumberRanking": 9,
+            "name": "data_9_name",
+            "totalBalanc": 9,
+            "dailyAverageBalanceRanking": 9,
+            "dailyAverageBalance": 9
+        },
+        {
+            "inviteNumbers": 10,
+            "total": 15,
+            "inviteNumberRanking": 10,
+            "name": "data_10_name",
+            "totalBalanc": 10,
+            "dailyAverageBalanceRanking": 10,
+            "dailyAverageBalance": 10
+        },
+        {
+            "inviteNumbers": 11,
+            "total": 15,
+            "inviteNumberRanking": 11,
+            "name": "data_11_name",
+            "totalBalanc": 11,
+            "dailyAverageBalanceRanking": 11,
+            "dailyAverageBalance": 11
+        },
+        {
+            "inviteNumbers": 12,
+            "total": 15,
+            "inviteNumberRanking": 12,
+            "name": "data_12_name",
+            "totalBalanc": 12,
+            "dailyAverageBalanceRanking": 12,
+            "dailyAverageBalance": 12
+        },
+        {
+            "inviteNumbers": 13,
+            "total": 15,
+            "inviteNumberRanking": 13,
+            "name": "data_13_name",
+            "totalBalanc": 13,
+            "dailyAverageBalanceRanking": 13,
+            "dailyAverageBalance": 13
+        },
+        {
+            "inviteNumbers": 14,
+            "total": 15,
+            "inviteNumberRanking": 14,
+            "name": "data_14_name",
+            "totalBalanc": 14,
+            "dailyAverageBalanceRanking": 14,
+            "dailyAverageBalance": 14
+        }
+    ],
+    "success": true,
+    "message": "message"
+}

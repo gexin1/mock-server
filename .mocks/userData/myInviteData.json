@@ -1,0 +1,11 @@
+{
+    "code": "code",
+    "data": {
+        "inviteNumbers": 0,
+        "totalBalance": 0,
+        "inviteTotalNumbers": 0,
+        "dailyAverageBalance": 0
+    },
+    "success": true,
+    "message": "message"
+}

@@ -1,0 +1,14 @@
+{
+    "code": "code",
+    "data": {
+        "myInviteUrl": "http://test.com/data_myInviteUrl",
+        "authToken": "data_authToken",
+        "inviteCode": "data_inviteCode",
+        "mobile": "data_mobile",
+        "userType": 0,
+        "userId": 100,
+        "bindRelation": true
+    },
+    "success": true,
+    "message": "message"
+}

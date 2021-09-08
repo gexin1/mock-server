@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>API</title>
+	<style>
+		html {
+			font-size: 14px;
+		}
+
+		body {
+			margin: 0;
+			color: #5e6d82;
+			height: 100%;
+			font-family: "Helvetica Neue For Number", apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+			-webkit-font-smoothing: antialiased;
+			-webkit-text-size-adjust: 100%;
+			line-height: 1.75;
+			background: #fbfbfb;
+		}
+
+		 ::-webkit-scrollbar {
+			width: 10px;
+			height: 10px;
+		}
+
+		 ::-webkit-scrollbar-track {
+			background-color: #f5f5f5;
+		}
+
+		 ::-webkit-scrollbar-thumb {
+			background-color: #aaa;
+		}
+
+		h1, h2, h3, h4, h5, h6 {
+			margin: 0;
+			font-weight: 500;
+			color: #3b4151;
+			padding: .5rem;
+		}
+
+		h2 {
+			font-size: 1.5rem;
+			border-bottom: 1px solid rgba(59, 65, 81, .3);
+		}
+
+		h3 {
+			background: #f9fafc;
+			border-radius: 5px 5px 0 0;
+			font-size: 1.2rem;
+		}
+
+		h4, h5, h6 {
+			padding: 0;
+		}
+
+		a {
+			color: #4078c0;
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+
+		small {
+			font-size: 1rem;
+			font-weight: 400;
+			margin-left: .75rem;
+			color: #5e6d82;
+		}
+
+		code {
+			font-family: Menlo, Monaco, Consolas, Courier, "Helvetica Neue For Number", apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", monospace;
+			white-space: pre-wrap;
+			word-break: break-word;
+		}
+
+		.api-label {
+			display: inline-block;
+			width: 3.2em;
+			text-align: center;
+			margin-right: .5rem;
+			font-size: .8rem;
+			font-weight: bolder;
+			color: #fff;
+			border-radius: 4px;
+			line-height: 1rem;
+			padding: .1rem;
+			cursor: inherit;
+		}
+
+		.api-label-success {
+			background: #57B382;
+		}
+
+		.api-label-warning {
+			background: #F47023;
+		}
+
+		.api-label-info {
+			background: #4A90E2;
+		}
+
+		.api-label-error {
+			background: red;
+		}
+
+		.api-label-reverse {
+			background: transparent;
+		}
+
+		.api-label-reverse.api-label-success {
+			color: #57B382;
+		}
+
+		.api-label-reverse.api-label-warning {
+			color: #F47023;
+		}
+
+		.api-label-reverse.api-label-info {
+			color: #4A90E2;
+		}
+
+		.api-label-reverse.api-label-error {
+			color: red;
+		}
+
+		.api-panel {
+			border: 1px solid #eaeefb;
+			margin-top: 1rem;
+			border-radius: 5px;
+			box-shadow: 0 0 3px rgba(0, 0, 0, .05);
+			background: #fff;
+		}
+
+		.api-panel-body {
+			border-top: 1px solid #eaeefb;
+			padding: 1rem;
+		}
+
+		.api-panel-col h3 {
+			border-radius: 5px;
+		}
+
+		.api-panel-col .api-panel-body {
+			display: none;
+		}
+
+		.api-code {
+			line-height: 1.5;
+			font-size: .95rem;
+			padding: .75rem 1rem;
+			background-color: #f9fafc;
+			border: 1px solid #eaeefb;
+			margin: 1rem 0;
+			border-radius: 4px;
+			-webkit-font-smoothing: auto;
+			white-space: pre-wrap;
+		}
+
+		.api-code-keyword {
+			color: #3182bd;
+		}
+
+		.api-code-symbol {
+			color: #756bb1;
+		}
+
+		.api-code-string {
+			color: #e6550d;
+		}
+
+		.api-code-number {
+			color: #31a354;
+		}
+
+		.api-code-comment {
+			color: #636363;
+		}
+
+		.api-code-deletion {
+			color: #88f;
+		}
+
+		.api-code code {
+			display: block;
+			outline: 0;
+		}
+
+		.api-table {
+			margin: 1rem 0;
+			border-collapse: collapse;
+		}
+
+		.api-table td {
+			padding: .25rem .5rem;
+		}
+
+		.api-table th {
+			text-align: left;
+			border-top: 1px solid #eaeefb;
+			background-color: #eff2f7;
+			white-space: nowrap;
+			padding: .5rem;
+			font-weight: 600;
+		}
+
+		.api-table tr:hover td {
+			background: #fbfdff;
+		}
+
+		.api-code:last-child, .api-table:last-child {
+			margin-bottom: 0;
+		}
+
+		.api-send {
+			background: #0275d8;
+			border: none;
+			cursor: pointer;
+			border-radius: 3px;
+			text-align: center;
+			color: #fff;
+			line-height: 1rem;
+			padding: .45rem 0;
+			touch-action: manipulation;
+			text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+			box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+			width: 5rem;
+			outline: 0;
+			font-weight: 400;
+			margin-top: -.5rem;
+			margin-bottom: 1rem;
+		}
+
+		.api-send:hover, .api-send:focus {
+			background: #025aa5;
+		}
+
+		.api-send-abort {
+			background: #faa732 !important;
+		}
+
+		.api-required {
+			color: red;
+			margin-left: .2rem;
+		}
+
+		#api_version {
+			float: right;
+		}
+
+		#api_sidebar {
+			position: fixed;
+			width: 25%;
+			height: 100%;
+			background: #263238;
+			color: #82959F;
+			box-sizing: border-box;
+			overflow-y: auto;
+		}
+
+		#api_sidebar ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		#api_sidebar a {
+			display: block;
+			overflow: hidden;
+			padding: 1rem;
+			color: #82959F;
+			text-decoration: none;
+			background: #1D2225;
+			white-space: pre;
+			text-overflow: ellipsis;
+			line-height: 1.5rem;
+		}
+
+		#api_sidebar ul ul a {
+			background: #263238;
+			padding: .75rem 1rem;
+		}
+
+		#api_sidebar ul ul a:hover {
+			color: #fff;
+			background-color: #50585d;
+		}
+
+		#api_filter {
+			width: 100%;
+			background: none;
+			border: 0;
+			padding: .5rem 1rem;
+			color: #fff;
+		}
+
+		#api_filter::placeholder {
+			font-style: italic;
+		}
+
+		#api_main {
+			margin-left: 25%;
+		}
+
+		#api_header {
+			background: #f0f0f0;
+			padding: .65rem 1rem;
+		}
+
+		#api_header input {
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			background: #fff;
+			padding: .5rem;
+			outline: 0;
+			width: 70%;
+			margin-left: 1rem;
+		}
+
+		#api_header input:focus {
+			border-color: rgba(82, 168, 236, 0.8);
+		}
+
+		#api_body {
+			padding: 1rem;
+		}
+
+		@media (max-width:680px) {
+			#api_sidebar {
+				display: none;
+			}
+
+			#api_main {
+				margin: 0;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<aside id="api_sidebar">
+		<input type="search" id="api_filter" placeholder="搜索..." oninput="setFilter(this.value)">
+		<ul>
+			<li><a href="#/product">/product</a><ul><li><a href="#/product/queryDetailByType" title="/product/queryDetailByType&#10;查询产品详情"><label class="api-label api-label-warning api-label-reverse">POST</label>查询产品详情</a></li><li><a href="#/product/queryPage" title="/product/queryPage&#10;查询产品列表"><label class="api-label api-label-warning api-label-reverse">POST</label>查询产品列表</a></li></ul></li><li><a href="#/user">/user</a><ul><li><a href="#/user/bindCardWechat" title="/user/bindCardWechat&#10;微信账号与权益卡绑定并登录"><label class="api-label api-label-warning api-label-reverse">POST</label>微信账号与权益卡绑定并登录</a></li><li><a href="#/user/logout" title="/user/logout&#10;用户登出"><label class="api-label api-label-warning api-label-reverse">POST</label>用户登出</a></li><li><a href="#/user/getUserInfoByInviteCode" title="/user/getUserInfoByInviteCode&#10;根据邀请码获取用户信息"><label class="api-label api-label-warning api-label-reverse">POST</label>根据邀请码获取用户信息</a></li><li><a href="#/user/getMyInviteQrcode" title="/user/getMyInviteQrcode&#10;获取我的邀请二维码图片"><label class="api-label api-label-warning api-label-reverse">POST</label>获取我的邀请二维码图片</a></li><li><a href="#/user/sendSmsVerifyCode" title="/user/sendSmsVerifyCode&#10;获取登录短信验证码"><label class="api-label api-label-warning api-label-reverse">POST</label>获取登录短信验证码</a></li><li><a href="#/user/bindUserWechatAndVerifyCode" title="/user/bindUserWechatAndVerifyCode&#10;微信账号与手机账号绑定并使用验证码登录"><label class="api-label api-label-warning api-label-reverse">POST</label>微信账号与手机账号绑定并使用验证码登录</a></li></ul></li><li><a href="#/user/wechat">/user/wechat</a><ul><li><a href="#/user/wechat/sign" title="/user/wechat/sign&#10;微信签名方法"><label class="api-label api-label-warning api-label-reverse">POST</label>微信签名方法</a></li><li><a href="#/user/wechat/inviteLogin" title="/user/wechat/inviteLogin&#10;达人邀请页面微信用户授权登录"><label class="api-label api-label-warning api-label-reverse">POST</label>达人邀请页面微信用户授权登录</a></li><li><a href="#/user/wechat/cardLogin" title="/user/wechat/cardLogin&#10;用户开卡页面微信用户授权登录"><label class="api-label api-label-warning api-label-reverse">POST</label>用户开卡页面微信用户授权登录</a></li></ul></li><li><a href="#/userData">/userData</a><ul><li><a href="#/userData/myInviteData" title="/userData/myInviteData&#10;查询我的邀请汇总数据"><label class="api-label api-label-warning api-label-reverse">POST</label>查询我的邀请汇总数据</a></li><li><a href="#/userData/myRankingData" title="/userData/myRankingData&#10;查询我的排名汇总数据"><label class="api-label api-label-warning api-label-reverse">POST</label>查询我的排名汇总数据</a></li><li><a href="#/userData/myInviteDataDetailList" title="/userData/myInviteDataDetailList&#10;查询我的邀请详情数据"><label class="api-label api-label-warning api-label-reverse">POST</label>查询我的邀请详情数据</a></li><li><a href="#/userData/queryRankingTop" title="/userData/queryRankingTop&#10;查询个人排名详情top"><label class="api-label api-label-warning api-label-reverse">POST</label>查询个人排名详情top</a></li><li><a href="#/userData/queryTeamRanking" title="/userData/queryTeamRanking&#10;查询团队排行榜"><label class="api-label api-label-warning api-label-reverse">POST</label>查询团队排行榜</a></li></ul></li><li><a href="#/userProductPromotion">/userProductPromotion</a><ul><li><a href="#/userProductPromotion/queryMyPage" title="/userProductPromotion/queryMyPage&#10;查询我的推广列表"><label class="api-label api-label-warning api-label-reverse">POST</label>查询我的推广列表</a></li></ul></li><li><a href="#api_types">Types</a><ul><li><a href="#com.weidai.pay.qianfeng.service.dto.InviteParamsDto" title="com.weidai.pay.qianfeng.service.dto.InviteParamsDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteParamsDto</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.BindCardWechatDto" title="com.weidai.pay.qianfeng.service.dto.BindCardWechatDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.BindCardWechatDto</a></li><li><a href="#com.weidai.pay.qianfeng.service.vo.UserProductPromotionVO" title="com.weidai.pay.qianfeng.service.vo.UserProductPromotionVO"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.vo.UserProductPromotionVO</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.UserProductPromotionDto" title="com.weidai.pay.qianfeng.service.dto.UserProductPromotionDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.UserProductPromotionDto</a></li><li><a href="#com.weidai.pay.qianfeng.service.vo.ProductInfoVO" title="com.weidai.pay.qianfeng.service.vo.ProductInfoVO"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.vo.ProductInfoVO</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.WechatSignRequest" title="com.weidai.pay.qianfeng.service.dto.WechatSignRequest"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.WechatSignRequest</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.InviteRankingDataInfoDto" title="com.weidai.pay.qianfeng.service.dto.InviteRankingDataInfoDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteRankingDataInfoDto</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.InviteDataInfoDto" title="com.weidai.pay.qianfeng.service.dto.InviteDataInfoDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteDataInfoDto</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.InviteDataUserInfoDto" title="com.weidai.pay.qianfeng.service.dto.InviteDataUserInfoDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteDataUserInfoDto</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.WechatUserInfoDto" title="com.weidai.pay.qianfeng.service.dto.WechatUserInfoDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.WechatUserInfoDto</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.InviteTeamRankingParamsDto" title="com.weidai.pay.qianfeng.service.dto.InviteTeamRankingParamsDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteTeamRankingParamsDto</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.UserDto" title="com.weidai.pay.qianfeng.service.dto.UserDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.UserDto</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.VerifyCodeDto" title="com.weidai.pay.qianfeng.service.dto.VerifyCodeDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.VerifyCodeDto</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.InviteDataTeamInfoDto" title="com.weidai.pay.qianfeng.service.dto.InviteDataTeamInfoDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteDataTeamInfoDto</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.UserInfoDto" title="com.weidai.pay.qianfeng.service.dto.UserInfoDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.UserInfoDto</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.InviteDataDetailInfoDto" title="com.weidai.pay.qianfeng.service.dto.InviteDataDetailInfoDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteDataDetailInfoDto</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.InviteRankingParamsDto" title="com.weidai.pay.qianfeng.service.dto.InviteRankingParamsDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteRankingParamsDto</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.ProductInfoDto" title="com.weidai.pay.qianfeng.service.dto.ProductInfoDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.ProductInfoDto</a></li><li><a href="#java.lang.Object" title="java.lang.Object"><label class="api-label api-label-info api-label-reverse">CLASS</label>java.lang.Object</a></li><li><a href="#com.weidai.pay.qianfeng.service.dto.WechatSignInfoDto" title="com.weidai.pay.qianfeng.service.dto.WechatSignInfoDto"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.dto.WechatSignInfoDto</a></li><li><a href="#com.weidai.pay.qianfeng.service.entify.PageBean&lt;T&gt;" title="com.weidai.pay.qianfeng.service.entify.PageBean&lt;T&gt;"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.entify.PageBean&lt;T&gt;</a></li><li><a href="#com.weidai.pay.qianfeng.entify.WebResult&lt;T&gt;" title="com.weidai.pay.qianfeng.entify.WebResult&lt;T&gt;"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.entify.WebResult&lt;T&gt;</a></li><li><a href="#com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;" title="com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;"><label class="api-label api-label-info api-label-reverse">CLASS</label>com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;</a></li></ul></li>
+		</ul>
+	</aside>
+	<div id="api_main">
+		<header id="api_header">
+			<span id="api_version">Version: 2021-08-26 10:43:58</span>
+			<label>Server URL:</label>
+			<input type="text" value="" id="url">
+		</header>
+		<article id="api_body">
+			<h2 id="/product" ondblclick="toggleSection(this)">/product</h2><div><section class="api-panel"><h3 id="/product/queryDetailByType" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/product/queryDetailByType<small>查询产品详情</small></h3><div class="api-panel-body"><h4>Request</h4><table class="api-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>params</code></td>
+                            <td><code><a href="#com.weidai.pay.qianfeng.service.dto.ProductInfoDto">com.weidai.pay.qianfeng.service.dto.ProductInfoDto</a></code></td>
+                            <td>只传产品类型</td>
+                        </tr></table><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">params</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>                     <span class="api-code-comment">// 只传产品类型</span>
+        <span class="api-code-keyword">curPage</span><span class="api-code-punction">: </span><span class="api-code-number">1</span><span class="api-code-punction">,</span>                  <span class="api-code-comment">// 当前页码</span>
+        <span class="api-code-keyword">pageSize</span><span class="api-code-punction">: </span><span class="api-code-number">10</span><span class="api-code-punction">,</span>                <span class="api-code-comment">// 每页多少条</span>
+        <span class="api-code-keyword">productName</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;productName&quot;</span><span class="api-code-punction">,</span>  <span class="api-code-comment">// 产品名称</span>
+        <span class="api-code-keyword">productType</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;productType&quot;</span>   <span class="api-code-comment">// 产品类型</span>
+    <span class="api-code-punction">}</span>
+<span class="api-code-punction">}</span></code></pre><button class="api-send" onclick="send(this, &quot;/product/queryDetailByType&quot;, undefined, &quot;application/json&quot;)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;">com.weidai.pay.qianfeng.service.entify.ServiceResult</a>&lt;<a href="#com.weidai.pay.qianfeng.service.vo.ProductInfoVO">com.weidai.pay.qianfeng.service.vo.ProductInfoVO</a>&gt;</code> WebResult&lt;ProductInfo&gt;<pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>
+        <span class="api-code-keyword">interestRate</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_interestRate&quot;</span><span class="api-code-punction">,</span>     <span class="api-code-comment">// 产品利率</span>
+        <span class="api-code-keyword">maxLimitAmount</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>           <span class="api-code-comment">// 最大投资限额</span>
+        <span class="api-code-keyword">productDesc</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_productDesc&quot;</span><span class="api-code-punction">,</span>       <span class="api-code-comment">// 产品描述</span>
+        <span class="api-code-keyword">gmtModified</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;2010/01/01 00:00:00&quot;</span><span class="api-code-punction">,</span>    <span class="api-code-comment">// 修改时间</span>
+        <span class="api-code-keyword">minLimitAmount</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>           <span class="api-code-comment">// 最小投资限额</span>
+        <span class="api-code-keyword">totalLimitAmount</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>         <span class="api-code-comment">// 产品总限额</span>
+        <span class="api-code-keyword">id</span><span class="api-code-punction">: </span><span class="api-code-number">100</span><span class="api-code-punction">,</span>                     <span class="api-code-comment">// 主键id</span>
+        <span class="api-code-keyword">gmtCreate</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;2010/01/01 00:00:00&quot;</span><span class="api-code-punction">,</span>      <span class="api-code-comment">// 创建时间</span>
+        <span class="api-code-keyword">productName</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_productName&quot;</span><span class="api-code-punction">,</span>       <span class="api-code-comment">// 产品名称</span>
+        <span class="api-code-keyword">productType</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_productType&quot;</span>        <span class="api-code-comment">// 产品类型</span>
+    <span class="api-code-punction">}</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section><section class="api-panel"><h3 id="/product/queryPage" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/product/queryPage<small>查询产品列表</small></h3><div class="api-panel-body"><h4>Request</h4><table class="api-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>params</code></td>
+                            <td><code><a href="#com.weidai.pay.qianfeng.service.dto.ProductInfoDto">com.weidai.pay.qianfeng.service.dto.ProductInfoDto</a></code></td>
+                            <td>参数</td>
+                        </tr></table><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">params</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>                     <span class="api-code-comment">// 参数</span>
+        <span class="api-code-keyword">curPage</span><span class="api-code-punction">: </span><span class="api-code-number">1</span><span class="api-code-punction">,</span>                  <span class="api-code-comment">// 当前页码</span>
+        <span class="api-code-keyword">pageSize</span><span class="api-code-punction">: </span><span class="api-code-number">10</span><span class="api-code-punction">,</span>                <span class="api-code-comment">// 每页多少条</span>
+        <span class="api-code-keyword">productName</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;productName&quot;</span><span class="api-code-punction">,</span>  <span class="api-code-comment">// 产品名称</span>
+        <span class="api-code-keyword">productType</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;productType&quot;</span>   <span class="api-code-comment">// 产品类型</span>
+    <span class="api-code-punction">}</span>
+<span class="api-code-punction">}</span></code></pre><button class="api-send" onclick="send(this, &quot;/product/queryPage&quot;, undefined, &quot;application/json&quot;)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;">com.weidai.pay.qianfeng.service.entify.ServiceResult</a>&lt;<a href="#com.weidai.pay.qianfeng.service.entify.PageBean&lt;T&gt;">com.weidai.pay.qianfeng.service.entify.PageBean</a>&lt;<a href="#com.weidai.pay.qianfeng.service.vo.ProductInfoVO">com.weidai.pay.qianfeng.service.vo.ProductInfoVO</a>&gt;&gt;</code> WebResult&lt;PageBean&lt;ProductInfo&gt;&gt;<pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>
+        <span class="api-code-keyword">curPage</span><span class="api-code-punction">: </span><span class="api-code-number">1</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>
+        <span class="api-code-punction">}</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">endRecordCount</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">recordCount</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">pageSize</span><span class="api-code-punction">: </span><span class="api-code-number">10</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">startRecordCount</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">list</span><span class="api-code-punction">: </span><span class="api-code-punction">[</span><span class="api-code-punction">{</span>
+            <span class="api-code-keyword">interestRate</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_list_0_interestRate&quot;</span><span class="api-code-punction">,</span>       <span class="api-code-comment">// 产品利率</span>
+            <span class="api-code-keyword">maxLimitAmount</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>          <span class="api-code-comment">// 最大投资限额</span>
+            <span class="api-code-keyword">productDesc</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_list_0_productDesc&quot;</span><span class="api-code-punction">,</span>         <span class="api-code-comment">// 产品描述</span>
+            <span class="api-code-keyword">gmtModified</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;2010/01/01 00:00:00&quot;</span><span class="api-code-punction">,</span>   <span class="api-code-comment">// 修改时间</span>
+            <span class="api-code-keyword">minLimitAmount</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>          <span class="api-code-comment">// 最小投资限额</span>
+            <span class="api-code-keyword">totalLimitAmount</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>        <span class="api-code-comment">// 产品总限额</span>
+            <span class="api-code-keyword">id</span><span class="api-code-punction">: </span><span class="api-code-number">100</span><span class="api-code-punction">,</span>                    <span class="api-code-comment">// 主键id</span>
+            <span class="api-code-keyword">gmtCreate</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;2010/01/01 00:00:00&quot;</span><span class="api-code-punction">,</span>     <span class="api-code-comment">// 创建时间</span>
+            <span class="api-code-keyword">productName</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_list_0_productName&quot;</span><span class="api-code-punction">,</span>         <span class="api-code-comment">// 产品名称</span>
+            <span class="api-code-keyword">productType</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_list_0_productType&quot;</span>          <span class="api-code-comment">// 产品类型</span>
+        <span class="api-code-punction">}</span><span class="api-code-punction">]</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">maxPage</span><span class="api-code-punction">: </span><span class="api-code-number">1</span>
+    <span class="api-code-punction">}</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section></div><h2 id="/user" ondblclick="toggleSection(this)">/user</h2><div><section class="api-panel"><h3 id="/user/bindCardWechat" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/user/bindCardWechat<small>微信账号与权益卡绑定并登录</small></h3><div class="api-panel-body"><h4>Request</h4><table class="api-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>bindCardInfo</code></td>
+                            <td><code><a href="#com.weidai.pay.qianfeng.service.dto.BindCardWechatDto">com.weidai.pay.qianfeng.service.dto.BindCardWechatDto</a></code></td>
+                            <td>绑定信息</td>
+                        </tr></table><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">bindCardInfo</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>               <span class="api-code-comment">// 绑定信息</span>
+        <span class="api-code-keyword">reserveMobile</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;reserveMobile&quot;</span><span class="api-code-punction">,</span>        <span class="api-code-comment">// 预留手机号，必填</span>
+        <span class="api-code-keyword">inviteCode</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;inviteCode&quot;</span><span class="api-code-punction">,</span>    <span class="api-code-comment">// 邀请码，必填</span>
+        <span class="api-code-keyword">name</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;name&quot;</span><span class="api-code-punction">,</span>                <span class="api-code-comment">// 姓名，必填</span>
+        <span class="api-code-keyword">idNo</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;idNo&quot;</span><span class="api-code-punction">,</span>                <span class="api-code-comment">// 身份证，必填</span>
+        <span class="api-code-keyword">productType</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;productType&quot;</span>   <span class="api-code-comment">// 产品类型，二期以后必填</span>
+    <span class="api-code-punction">}</span>
+<span class="api-code-punction">}</span></code></pre><button class="api-send" onclick="send(this, &quot;/user/bindCardWechat&quot;, &quot;POST&quot;, &quot;application/json&quot;)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;">com.weidai.pay.qianfeng.service.entify.ServiceResult</a>&lt;boolean&gt;</code> <pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section><section class="api-panel"><h3 id="/user/logout" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/user/logout<small>用户登出</small></h3><div class="api-panel-body"><button class="api-send" onclick="send(this, &quot;/user/logout&quot;, undefined, undefined)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.entify.WebResult&lt;T&gt;">com.weidai.pay.qianfeng.entify.WebResult</a>&lt;string&gt;</code> <pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">count2</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">redirectUrl</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;http://test.com/redirectUrl&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">count</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section><section class="api-panel"><h3 id="/user/getUserInfoByInviteCode" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/user/getUserInfoByInviteCode<small>根据邀请码获取用户信息</small></h3><div class="api-panel-body"><h4>Request</h4><table class="api-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>dto</code></td>
+                            <td><code><a href="#com.weidai.pay.qianfeng.service.dto.UserDto">com.weidai.pay.qianfeng.service.dto.UserDto</a></code></td>
+                            <td></td>
+                        </tr></table><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">dto</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>
+        <span class="api-code-keyword">contactMobile</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;contactMobile&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">empId</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;empId&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">gmtModified</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;2010/01/01 00:00:00&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">avatarUrl</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;http://test.com/avatarUrl&quot;</span><span class="api-code-punction">,</span>          <span class="api-code-comment">// 微信头像</span>
+        <span class="api-code-keyword">nickName</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;nickName&quot;</span><span class="api-code-punction">,</span>        <span class="api-code-comment">// 微信昵称</span>
+        <span class="api-code-keyword">deptId</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;deptId&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">mobile</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;mobile&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">memo</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;memo&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">gmtCreate</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;2010/01/01 00:00:00&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">type</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">idNo</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;idNo&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">teamNo</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;teamNo&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">password</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;000000&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">inviteCode</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;inviteCode&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">name</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;name&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">id</span><span class="api-code-punction">: </span><span class="api-code-number">100</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">email</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;email_email@test.com&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">status</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;status&quot;</span>
+    <span class="api-code-punction">}</span>
+<span class="api-code-punction">}</span></code></pre><button class="api-send" onclick="send(this, &quot;/user/getUserInfoByInviteCode&quot;, undefined, &quot;application/json&quot;)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.entify.WebResult&lt;T&gt;">com.weidai.pay.qianfeng.entify.WebResult</a>&lt;<a href="#com.weidai.pay.qianfeng.service.dto.UserDto">com.weidai.pay.qianfeng.service.dto.UserDto</a>&gt;</code> <pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">count2</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">redirectUrl</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;http://test.com/redirectUrl&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>
+        <span class="api-code-keyword">contactMobile</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_contactMobile&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">empId</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_empId&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">gmtModified</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;2010/01/01 00:00:00&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">avatarUrl</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;http://test.com/data_avatarUrl&quot;</span><span class="api-code-punction">,</span>     <span class="api-code-comment">// 微信头像</span>
+        <span class="api-code-keyword">nickName</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_nickName&quot;</span><span class="api-code-punction">,</span>   <span class="api-code-comment">// 微信昵称</span>
+        <span class="api-code-keyword">deptId</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_deptId&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">mobile</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_mobile&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">memo</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_memo&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">gmtCreate</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;2010/01/01 00:00:00&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">type</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">idNo</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_idNo&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">teamNo</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_teamNo&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">password</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;000000&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">inviteCode</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_inviteCode&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">name</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_name&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">id</span><span class="api-code-punction">: </span><span class="api-code-number">100</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">email</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_email_email@test.com&quot;</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">status</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_status&quot;</span>
+    <span class="api-code-punction">}</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">count</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section><section class="api-panel"><h3 id="/user/getMyInviteQrcode" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/user/getMyInviteQrcode<small>获取我的邀请二维码图片</small></h3><div class="api-panel-body"><h4>Request</h4><table class="api-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>productType</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr></table><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">productType</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;productType&quot;</span>
+<span class="api-code-punction">}</span></code></pre><button class="api-send" onclick="send(this, &quot;/user/getMyInviteQrcode&quot;, undefined, undefined)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.entify.WebResult&lt;T&gt;">com.weidai.pay.qianfeng.entify.WebResult</a>&lt;number[]&gt;</code> <pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">count2</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">redirectUrl</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;http://test.com/redirectUrl&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">[</span><span class="api-code-number">0</span><span class="api-code-punction">]</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">count</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section><section class="api-panel"><h3 id="/user/sendSmsVerifyCode" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/user/sendSmsVerifyCode<small>获取登录短信验证码</small></h3><div class="api-panel-body"><h4>Request</h4><table class="api-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>dto</code></td>
+                            <td><code><a href="#com.weidai.pay.qianfeng.service.dto.VerifyCodeDto">com.weidai.pay.qianfeng.service.dto.VerifyCodeDto</a></code></td>
+                            <td>手机号</td>
+                        </tr></table><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">dto</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>                        <span class="api-code-comment">// 手机号</span>
+        <span class="api-code-keyword">phoneNumber</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;phoneNumber&quot;</span><span class="api-code-punction">,</span>  <span class="api-code-comment">// 手机号</span>
+        <span class="api-code-keyword">smsVerifyCode</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;smsVerifyCode&quot;</span>         <span class="api-code-comment">// 验证码</span>
+    <span class="api-code-punction">}</span>
+<span class="api-code-punction">}</span></code></pre><button class="api-send" onclick="send(this, &quot;/user/sendSmsVerifyCode&quot;, &quot;POST&quot;, &quot;application/json&quot;)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;">com.weidai.pay.qianfeng.service.entify.ServiceResult</a>&lt;boolean&gt;</code> <pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section><section class="api-panel"><h3 id="/user/bindUserWechatAndVerifyCode" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/user/bindUserWechatAndVerifyCode<small>微信账号与手机账号绑定并使用验证码登录</small></h3><div class="api-panel-body"><h4>Request</h4><table class="api-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>dto</code></td>
+                            <td><code><a href="#com.weidai.pay.qianfeng.service.dto.VerifyCodeDto">com.weidai.pay.qianfeng.service.dto.VerifyCodeDto</a></code></td>
+                            <td>参数</td>
+                        </tr></table><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">dto</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>                        <span class="api-code-comment">// 参数</span>
+        <span class="api-code-keyword">phoneNumber</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;phoneNumber&quot;</span><span class="api-code-punction">,</span>  <span class="api-code-comment">// 手机号</span>
+        <span class="api-code-keyword">smsVerifyCode</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;smsVerifyCode&quot;</span>         <span class="api-code-comment">// 验证码</span>
+    <span class="api-code-punction">}</span>
+<span class="api-code-punction">}</span></code></pre><button class="api-send" onclick="send(this, &quot;/user/bindUserWechatAndVerifyCode&quot;, &quot;POST&quot;, &quot;application/json&quot;)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;">com.weidai.pay.qianfeng.service.entify.ServiceResult</a>&lt;<a href="#com.weidai.pay.qianfeng.service.dto.UserInfoDto">com.weidai.pay.qianfeng.service.dto.UserInfoDto</a>&gt;</code> <pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>
+        <span class="api-code-keyword">authToken</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_authToken&quot;</span><span class="api-code-punction">,</span>           <span class="api-code-comment">// 用户权限token</span>
+        <span class="api-code-keyword">inviteCode</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_inviteCode&quot;</span><span class="api-code-punction">,</span>         <span class="api-code-comment">// 员工账号的邀请码，其他账号没有邀请码 </span>
+        <span class="api-code-keyword">mobile</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_mobile&quot;</span><span class="api-code-punction">,</span>       <span class="api-code-comment">// 手机号</span>
+        <span class="api-code-keyword">userType</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>                 <span class="api-code-comment">// 用户类型，1员工账号（可以发出邀请），其他类型不能邀请 </span>
+        <span class="api-code-keyword">userId</span><span class="api-code-punction">: </span><span class="api-code-number">100</span><span class="api-code-punction">,</span>                 <span class="api-code-comment">// 用户id</span>
+        <span class="api-code-keyword">bindRelation</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span>           <span class="api-code-comment">// 是否已绑定关联关系 </span>
+    <span class="api-code-punction">}</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section></div><h2 id="/user/wechat" ondblclick="toggleSection(this)">/user/wechat</h2><div><section class="api-panel"><h3 id="/user/wechat/sign" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/user/wechat/sign<small>微信签名方法</small></h3><div class="api-panel-body"><h4>Request</h4><table class="api-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>signReq</code></td>
+                            <td><code><a href="#com.weidai.pay.qianfeng.service.dto.WechatSignRequest">com.weidai.pay.qianfeng.service.dto.WechatSignRequest</a></code></td>
+                            <td></td>
+                        </tr></table><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">signReq</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>
+        <span class="api-code-keyword">url</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;http://test.com/url&quot;</span>   <span class="api-code-comment">// 当前网页的url</span>
+    <span class="api-code-punction">}</span>
+<span class="api-code-punction">}</span></code></pre><button class="api-send" onclick="send(this, &quot;/user/wechat/sign&quot;, &quot;POST&quot;, &quot;application/json&quot;)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;">com.weidai.pay.qianfeng.service.entify.ServiceResult</a>&lt;<a href="#com.weidai.pay.qianfeng.service.dto.WechatSignInfoDto">com.weidai.pay.qianfeng.service.dto.WechatSignInfoDto</a>&gt;</code> <pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>
+        <span class="api-code-keyword">signature</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_signature&quot;</span><span class="api-code-punction">,</span>           <span class="api-code-comment">// 必填，签名</span>
+        <span class="api-code-keyword">appId</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_appId&quot;</span><span class="api-code-punction">,</span>         <span class="api-code-comment">// 必填，公众号的唯一标识</span>
+        <span class="api-code-keyword">nonceStr</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_nonceStr&quot;</span><span class="api-code-punction">,</span>   <span class="api-code-comment">// 必填，生成签名的随机串</span>
+        <span class="api-code-keyword">timestamp</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_timestamp&quot;</span>  <span class="api-code-comment">// 必填，生成签名的时间戳</span>
+    <span class="api-code-punction">}</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section><section class="api-panel"><h3 id="/user/wechat/inviteLogin" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/user/wechat/inviteLogin<small>达人邀请页面微信用户授权登录</small></h3><div class="api-panel-body"><h4>Request</h4><table class="api-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>wechatUserInfoDto</code></td>
+                            <td><code><a href="#com.weidai.pay.qianfeng.service.dto.WechatUserInfoDto">com.weidai.pay.qianfeng.service.dto.WechatUserInfoDto</a></code></td>
+                            <td>微信用户信息</td>
+                        </tr></table><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">wechatUserInfoDto</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>          <span class="api-code-comment">// 微信用户信息</span>
+        <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>                <span class="api-code-comment">// 微信用户登录凭证code</span>
+        <span class="api-code-keyword">authToken</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;authToken&quot;</span>       <span class="api-code-comment">// 客户端存储的authToken</span>
+    <span class="api-code-punction">}</span>
+<span class="api-code-punction">}</span></code></pre><button class="api-send" onclick="send(this, &quot;/user/wechat/inviteLogin&quot;, &quot;POST&quot;, &quot;application/json&quot;)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;">com.weidai.pay.qianfeng.service.entify.ServiceResult</a>&lt;<a href="#com.weidai.pay.qianfeng.service.dto.UserInfoDto">com.weidai.pay.qianfeng.service.dto.UserInfoDto</a>&gt;</code> <pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>
+        <span class="api-code-keyword">authToken</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_authToken&quot;</span><span class="api-code-punction">,</span>           <span class="api-code-comment">// 用户权限token</span>
+        <span class="api-code-keyword">inviteCode</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_inviteCode&quot;</span><span class="api-code-punction">,</span>         <span class="api-code-comment">// 员工账号的邀请码，其他账号没有邀请码 </span>
+        <span class="api-code-keyword">mobile</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_mobile&quot;</span><span class="api-code-punction">,</span>       <span class="api-code-comment">// 手机号</span>
+        <span class="api-code-keyword">userType</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>                 <span class="api-code-comment">// 用户类型，1员工账号（可以发出邀请），其他类型不能邀请 </span>
+        <span class="api-code-keyword">userId</span><span class="api-code-punction">: </span><span class="api-code-number">100</span><span class="api-code-punction">,</span>                 <span class="api-code-comment">// 用户id</span>
+        <span class="api-code-keyword">bindRelation</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span>           <span class="api-code-comment">// 是否已绑定关联关系 </span>
+    <span class="api-code-punction">}</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section><section class="api-panel"><h3 id="/user/wechat/cardLogin" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/user/wechat/cardLogin<small>用户开卡页面微信用户授权登录</small></h3><div class="api-panel-body"><h4>Request</h4><table class="api-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>wechatUserInfoDto</code></td>
+                            <td><code><a href="#com.weidai.pay.qianfeng.service.dto.WechatUserInfoDto">com.weidai.pay.qianfeng.service.dto.WechatUserInfoDto</a></code></td>
+                            <td>微信用户信息</td>
+                        </tr></table><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">wechatUserInfoDto</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>          <span class="api-code-comment">// 微信用户信息</span>
+        <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>                <span class="api-code-comment">// 微信用户登录凭证code</span>
+        <span class="api-code-keyword">authToken</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;authToken&quot;</span>       <span class="api-code-comment">// 客户端存储的authToken</span>
+    <span class="api-code-punction">}</span>
+<span class="api-code-punction">}</span></code></pre><button class="api-send" onclick="send(this, &quot;/user/wechat/cardLogin&quot;, &quot;POST&quot;, &quot;application/json&quot;)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;">com.weidai.pay.qianfeng.service.entify.ServiceResult</a>&lt;<a href="#com.weidai.pay.qianfeng.service.dto.UserInfoDto">com.weidai.pay.qianfeng.service.dto.UserInfoDto</a>&gt;</code> <pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>
+        <span class="api-code-keyword">authToken</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_authToken&quot;</span><span class="api-code-punction">,</span>           <span class="api-code-comment">// 用户权限token</span>
+        <span class="api-code-keyword">inviteCode</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_inviteCode&quot;</span><span class="api-code-punction">,</span>         <span class="api-code-comment">// 员工账号的邀请码，其他账号没有邀请码 </span>
+        <span class="api-code-keyword">mobile</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_mobile&quot;</span><span class="api-code-punction">,</span>       <span class="api-code-comment">// 手机号</span>
+        <span class="api-code-keyword">userType</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>                 <span class="api-code-comment">// 用户类型，1员工账号（可以发出邀请），其他类型不能邀请 </span>
+        <span class="api-code-keyword">userId</span><span class="api-code-punction">: </span><span class="api-code-number">100</span><span class="api-code-punction">,</span>                 <span class="api-code-comment">// 用户id</span>
+        <span class="api-code-keyword">bindRelation</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span>           <span class="api-code-comment">// 是否已绑定关联关系 </span>
+    <span class="api-code-punction">}</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section></div><h2 id="/userData" ondblclick="toggleSection(this)">/userData</h2><div><section class="api-panel"><h3 id="/userData/myInviteData" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/userData/myInviteData<small>查询我的邀请汇总数据</small></h3><div class="api-panel-body"><button class="api-send" onclick="send(this, &quot;/userData/myInviteData&quot;, &quot;POST&quot;, undefined)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;">com.weidai.pay.qianfeng.service.entify.ServiceResult</a>&lt;<a href="#com.weidai.pay.qianfeng.service.dto.InviteDataInfoDto">com.weidai.pay.qianfeng.service.dto.InviteDataInfoDto</a>&gt;</code> <pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>
+        <span class="api-code-keyword">inviteNumbers</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>            <span class="api-code-comment">// 有效邀请人数</span>
+        <span class="api-code-keyword">totalBalance</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>             <span class="api-code-comment">// 我的总余额</span>
+        <span class="api-code-keyword">inviteTotalNumbers</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>       <span class="api-code-comment">// 邀请总人数</span>
+        <span class="api-code-keyword">dailyAverageBalance</span><span class="api-code-punction">: </span><span class="api-code-number">0</span>       <span class="api-code-comment">// 我的总日均余额</span>
+    <span class="api-code-punction">}</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section><section class="api-panel"><h3 id="/userData/myRankingData" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/userData/myRankingData<small>查询我的排名汇总数据</small></h3><div class="api-panel-body"><button class="api-send" onclick="send(this, &quot;/userData/myRankingData&quot;, &quot;POST&quot;, undefined)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;">com.weidai.pay.qianfeng.service.entify.ServiceResult</a>&lt;<a href="#com.weidai.pay.qianfeng.service.dto.InviteRankingDataInfoDto">com.weidai.pay.qianfeng.service.dto.InviteRankingDataInfoDto</a>&gt;</code> <pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>
+        <span class="api-code-keyword">totalRanking</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>             <span class="api-code-comment">// 总人数名次</span>
+        <span class="api-code-keyword">inviteNumbers</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>            <span class="api-code-comment">// 有效邀请人数</span>
+        <span class="api-code-keyword">totalDailyAverageBalance</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>           <span class="api-code-comment">// 总日均余额</span>
+        <span class="api-code-keyword">myDailyAverageBalanceRanking</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>       <span class="api-code-comment">// 我的日均余额排名</span>
+        <span class="api-code-keyword">totalBalance</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>             <span class="api-code-comment">// 总余额</span>
+        <span class="api-code-keyword">totalDailyAverageBalanceRanking</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>    <span class="api-code-comment">// 总日均余额名次</span>
+        <span class="api-code-keyword">myRanking</span><span class="api-code-punction">: </span><span class="api-code-number">0</span>                 <span class="api-code-comment">// 有效邀请人数排名</span>
+    <span class="api-code-punction">}</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section><section class="api-panel"><h3 id="/userData/myInviteDataDetailList" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/userData/myInviteDataDetailList<small>查询我的邀请详情数据</small></h3><div class="api-panel-body"><h4>Request</h4><table class="api-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>params</code></td>
+                            <td><code><a href="#com.weidai.pay.qianfeng.service.dto.InviteParamsDto">com.weidai.pay.qianfeng.service.dto.InviteParamsDto</a></code></td>
+                            <td>查询参数</td>
+                        </tr></table><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">params</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>                     <span class="api-code-comment">// 查询参数</span>
+        <span class="api-code-keyword">pageNo</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>                   <span class="api-code-comment">// 页码</span>
+        <span class="api-code-keyword">pageSize</span><span class="api-code-punction">: </span><span class="api-code-number">10</span><span class="api-code-punction">,</span>                <span class="api-code-comment">// 每页记录数</span>
+        <span class="api-code-keyword">productType</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;productType&quot;</span>   <span class="api-code-comment">// 产品类型，01为3.0%产品，02为2.5%产品</span>
+    <span class="api-code-punction">}</span>
+<span class="api-code-punction">}</span></code></pre><button class="api-send" onclick="send(this, &quot;/userData/myInviteDataDetailList&quot;, &quot;POST&quot;, &quot;application/json&quot;)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.entify.WebResult&lt;T&gt;">com.weidai.pay.qianfeng.entify.WebResult</a>&lt;<a href="#com.weidai.pay.qianfeng.service.dto.InviteDataDetailInfoDto">com.weidai.pay.qianfeng.service.dto.InviteDataDetailInfoDto</a>[]&gt;</code> <pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">count2</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">redirectUrl</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;http://test.com/redirectUrl&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">[</span><span class="api-code-punction">{</span>
+        <span class="api-code-keyword">reserveMobile</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_0_reserveMobile&quot;</span><span class="api-code-punction">,</span>           <span class="api-code-comment">// 被邀请人手机号</span>
+        <span class="api-code-keyword">name</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_0_name&quot;</span><span class="api-code-punction">,</span>         <span class="api-code-comment">// 被邀请人姓名</span>
+        <span class="api-code-keyword">openCardStatus</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>        <span class="api-code-comment">// 是否已开户</span>
+        <span class="api-code-keyword">standardDesc</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_0_standardDesc&quot;</span><span class="api-code-punction">,</span>   <span class="api-code-comment">// 是否达标中文描述，是、否、未开户</span>
+        <span class="api-code-keyword">applyTime</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;2010/01/01 00:00:00&quot;</span><span class="api-code-punction">,</span>      <span class="api-code-comment">// 权益申请时间</span>
+        <span class="api-code-keyword">idNo</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_0_idNo&quot;</span><span class="api-code-punction">,</span>         <span class="api-code-comment">// 被邀请人身份证号</span>
+        <span class="api-code-keyword">standardAccount</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span>        <span class="api-code-comment">// 是否达标账户</span>
+    <span class="api-code-punction">}</span><span class="api-code-punction">]</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">count</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section><section class="api-panel"><h3 id="/userData/queryRankingTop" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/userData/queryRankingTop<small>查询个人排名详情top</small></h3><div class="api-panel-body"><h4>Request</h4><table class="api-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>params</code></td>
+                            <td><code><a href="#com.weidai.pay.qianfeng.service.dto.InviteRankingParamsDto">com.weidai.pay.qianfeng.service.dto.InviteRankingParamsDto</a></code></td>
+                            <td>查询参数</td>
+                        </tr></table><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">params</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>                     <span class="api-code-comment">// 查询参数</span>
+        <span class="api-code-keyword">pageNo</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>                   <span class="api-code-comment">// 页码</span>
+        <span class="api-code-keyword">orderBy</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;orderBy&quot;</span><span class="api-code-punction">,</span>          <span class="api-code-comment">// 排序类型，1按人数排序，2按日均余额排序</span>
+        <span class="api-code-keyword">pageSize</span><span class="api-code-punction">: </span><span class="api-code-number">10</span>                 <span class="api-code-comment">// 每页记录数</span>
+    <span class="api-code-punction">}</span>
+<span class="api-code-punction">}</span></code></pre><button class="api-send" onclick="send(this, &quot;/userData/queryRankingTop&quot;, &quot;POST&quot;, &quot;application/json&quot;)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;">com.weidai.pay.qianfeng.service.entify.ServiceResult</a>&lt;<a href="#com.weidai.pay.qianfeng.service.dto.InviteDataUserInfoDto">com.weidai.pay.qianfeng.service.dto.InviteDataUserInfoDto</a>[]&gt;</code> <pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">[</span><span class="api-code-punction">{</span>
+        <span class="api-code-keyword">inviteNumbers</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>            <span class="api-code-comment">// 有效邀请人数</span>
+        <span class="api-code-keyword">total</span><span class="api-code-punction">: </span><span class="api-code-number">15</span><span class="api-code-punction">,</span>                   <span class="api-code-comment">// 达人总人数</span>
+        <span class="api-code-keyword">inviteNumberRanking</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>      <span class="api-code-comment">// 邀请人数排名</span>
+        <span class="api-code-keyword">name</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_0_name&quot;</span><span class="api-code-punction">,</span>         <span class="api-code-comment">// 达人姓名</span>
+        <span class="api-code-keyword">totalBalanc</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>              <span class="api-code-comment">// 我的总余额</span>
+        <span class="api-code-keyword">dailyAverageBalanceRanking</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>         <span class="api-code-comment">// 总日均余额排名</span>
+        <span class="api-code-keyword">dailyAverageBalance</span><span class="api-code-punction">: </span><span class="api-code-number">0</span>       <span class="api-code-comment">// 我的总日均余额</span>
+    <span class="api-code-punction">}</span><span class="api-code-punction">]</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section><section class="api-panel"><h3 id="/userData/queryTeamRanking" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/userData/queryTeamRanking<small>查询团队排行榜</small></h3><div class="api-panel-body"><h4>Request</h4><table class="api-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>params</code></td>
+                            <td><code><a href="#com.weidai.pay.qianfeng.service.dto.InviteTeamRankingParamsDto">com.weidai.pay.qianfeng.service.dto.InviteTeamRankingParamsDto</a></code></td>
+                            <td>参数，可为空</td>
+                        </tr></table><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">params</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>                     <span class="api-code-comment">// 参数，可为空</span>
+        <span class="api-code-keyword">pageNo</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>                   <span class="api-code-comment">// 页码</span>
+        <span class="api-code-keyword">pageSize</span><span class="api-code-punction">: </span><span class="api-code-number">10</span>                 <span class="api-code-comment">// 每页记录数</span>
+    <span class="api-code-punction">}</span>
+<span class="api-code-punction">}</span></code></pre><button class="api-send" onclick="send(this, &quot;/userData/queryTeamRanking&quot;, &quot;POST&quot;, &quot;application/json&quot;)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;">com.weidai.pay.qianfeng.service.entify.ServiceResult</a>&lt;<a href="#com.weidai.pay.qianfeng.service.dto.InviteDataTeamInfoDto">com.weidai.pay.qianfeng.service.dto.InviteDataTeamInfoDto</a>[]&gt;</code> <pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">[</span><span class="api-code-punction">{</span>
+        <span class="api-code-keyword">teamLogo</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_0_teamLogo&quot;</span><span class="api-code-punction">,</span>           <span class="api-code-comment">// 战队logo图片</span>
+        <span class="api-code-keyword">teamName</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_0_teamName&quot;</span><span class="api-code-punction">,</span>           <span class="api-code-comment">// 战队名称</span>
+        <span class="api-code-keyword">teamNo</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_0_teamNo&quot;</span><span class="api-code-punction">,</span>     <span class="api-code-comment">// 战队编号</span>
+        <span class="api-code-keyword">dailyAverTarget</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>          <span class="api-code-comment">// 团队目标</span>
+        <span class="api-code-keyword">dailyAverCompletion</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>      <span class="api-code-comment">// 团队达成</span>
+        <span class="api-code-keyword">totalBalance</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>             <span class="api-code-comment">// 总余额</span>
+        <span class="api-code-keyword">teamRanking</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>              <span class="api-code-comment">// 战队排名</span>
+        <span class="api-code-keyword">teamDesc</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_0_teamDesc&quot;</span><span class="api-code-punction">,</span>           <span class="api-code-comment">// 战队描述</span>
+        <span class="api-code-keyword">depositAverage</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>           <span class="api-code-comment">// 存款均值</span>
+        <span class="api-code-keyword">percent</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_0_percent&quot;</span><span class="api-code-punction">,</span>   <span class="api-code-comment">// 达成进度</span>
+        <span class="api-code-keyword">teamNumbers</span><span class="api-code-punction">: </span><span class="api-code-number">0</span>               <span class="api-code-comment">// 战队人数</span>
+    <span class="api-code-punction">}</span><span class="api-code-punction">]</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section></div><h2 id="/userProductPromotion" ondblclick="toggleSection(this)">/userProductPromotion</h2><div><section class="api-panel"><h3 id="/userProductPromotion/queryMyPage" ondblclick="togglePanel(this)"><label class="api-label api-label-warning">POST</label>/userProductPromotion/queryMyPage<small>查询我的推广列表</small></h3><div class="api-panel-body"><h4>Request</h4><table class="api-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>params</code></td>
+                            <td><code><a href="#com.weidai.pay.qianfeng.service.dto.UserProductPromotionDto">com.weidai.pay.qianfeng.service.dto.UserProductPromotionDto</a></code></td>
+                            <td>参数</td>
+                        </tr></table><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">params</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>                     <span class="api-code-comment">// 参数</span>
+        <span class="api-code-keyword">curPage</span><span class="api-code-punction">: </span><span class="api-code-number">1</span><span class="api-code-punction">,</span>                  <span class="api-code-comment">// 当前页码</span>
+        <span class="api-code-keyword">userNo</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;userNo&quot;</span><span class="api-code-punction">,</span>            <span class="api-code-comment">// 用户唯一编号，员工为工号</span>
+        <span class="api-code-keyword">pageSize</span><span class="api-code-punction">: </span><span class="api-code-number">10</span><span class="api-code-punction">,</span>                <span class="api-code-comment">// 每页多少条</span>
+        <span class="api-code-keyword">userType</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>                 <span class="api-code-comment">// 用户类型,1员工账号</span>
+        <span class="api-code-keyword">productType</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;productType&quot;</span>   <span class="api-code-comment">// 产品类型</span>
+    <span class="api-code-punction">}</span>
+<span class="api-code-punction">}</span></code></pre><button class="api-send" onclick="send(this, &quot;/userProductPromotion/queryMyPage&quot;, undefined, &quot;application/json&quot;)">Send</button><h4>Response</h4><code><a href="#com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;">com.weidai.pay.qianfeng.service.entify.ServiceResult</a>&lt;<a href="#com.weidai.pay.qianfeng.service.entify.PageBean&lt;T&gt;">com.weidai.pay.qianfeng.service.entify.PageBean</a>&lt;<a href="#com.weidai.pay.qianfeng.service.vo.UserProductPromotionVO">com.weidai.pay.qianfeng.service.vo.UserProductPromotionVO</a>&gt;&gt;</code> WebResult&lt;PageBean&lt;UserProductPromotionVO&gt;&gt;<pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"><span class="api-code-punction">{</span>
+    <span class="api-code-keyword">code</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;code&quot;</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>
+        <span class="api-code-keyword">curPage</span><span class="api-code-punction">: </span><span class="api-code-number">1</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">data</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>
+        <span class="api-code-punction">}</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">endRecordCount</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">recordCount</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">pageSize</span><span class="api-code-punction">: </span><span class="api-code-number">10</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">startRecordCount</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">list</span><span class="api-code-punction">: </span><span class="api-code-punction">[</span><span class="api-code-punction">{</span>
+            <span class="api-code-keyword">inviteNumbers</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>           <span class="api-code-comment">// 邀请人数</span>
+            <span class="api-code-keyword">gmtModified</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;2010/01/01 00:00:00&quot;</span><span class="api-code-punction">,</span>   <span class="api-code-comment">// 最后更新时间</span>
+            <span class="api-code-keyword">userNo</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_list_0_userNo&quot;</span><span class="api-code-punction">,</span>         <span class="api-code-comment">// 用户唯一编号，员工为工号</span>
+            <span class="api-code-keyword">id</span><span class="api-code-punction">: </span><span class="api-code-number">100</span><span class="api-code-punction">,</span>                    <span class="api-code-comment">// 主键id</span>
+            <span class="api-code-keyword">userType</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>                <span class="api-code-comment">// 用户类型,1员工账号</span>
+            <span class="api-code-keyword">gmtCreate</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;2010/01/01 00:00:00&quot;</span><span class="api-code-punction">,</span>     <span class="api-code-comment">// 创建时间</span>
+            <span class="api-code-keyword">productType</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_list_0_productType&quot;</span><span class="api-code-punction">,</span>         <span class="api-code-comment">// 产品类型</span>
+            <span class="api-code-keyword">productInfo</span><span class="api-code-punction">: </span><span class="api-code-punction">{</span>              <span class="api-code-comment">// 产品信息对象</span>
+                <span class="api-code-keyword">interestRate</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_list_0_productInfo_interestRate&quot;</span><span class="api-code-punction">,</span>  <span class="api-code-comment">// 产品利率</span>
+                <span class="api-code-keyword">maxLimitAmount</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>         <span class="api-code-comment">// 最大投资限额</span>
+                <span class="api-code-keyword">productDesc</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_list_0_productInfo_productDesc&quot;</span><span class="api-code-punction">,</span>  <span class="api-code-comment">// 产品描述</span>
+                <span class="api-code-keyword">gmtModified</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;2010/01/01 00:00:00&quot;</span><span class="api-code-punction">,</span>  <span class="api-code-comment">// 修改时间</span>
+                <span class="api-code-keyword">minLimitAmount</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>         <span class="api-code-comment">// 最小投资限额</span>
+                <span class="api-code-keyword">totalLimitAmount</span><span class="api-code-punction">: </span><span class="api-code-number">0</span><span class="api-code-punction">,</span>       <span class="api-code-comment">// 产品总限额</span>
+                <span class="api-code-keyword">id</span><span class="api-code-punction">: </span><span class="api-code-number">100</span><span class="api-code-punction">,</span>                   <span class="api-code-comment">// 主键id</span>
+                <span class="api-code-keyword">gmtCreate</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;2010/01/01 00:00:00&quot;</span><span class="api-code-punction">,</span>    <span class="api-code-comment">// 创建时间</span>
+                <span class="api-code-keyword">productName</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_list_0_productInfo_productName&quot;</span><span class="api-code-punction">,</span>  <span class="api-code-comment">// 产品名称</span>
+                <span class="api-code-keyword">productType</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;data_list_0_productInfo_productType&quot;</span>  <span class="api-code-comment">// 产品类型</span>
+            <span class="api-code-punction">}</span>
+        <span class="api-code-punction">}</span><span class="api-code-punction">]</span><span class="api-code-punction">,</span>
+        <span class="api-code-keyword">maxPage</span><span class="api-code-punction">: </span><span class="api-code-number">1</span>
+    <span class="api-code-punction">}</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">success</span><span class="api-code-punction">: </span><span class="api-code-boolean">true</span><span class="api-code-punction">,</span>
+    <span class="api-code-keyword">message</span><span class="api-code-punction">: </span><span class="api-code-string">&quot;message&quot;</span>
+<span class="api-code-punction">}</span></code></pre></div></section></div><h2 id="api_types" onclick="toggleSection(this)">Types</h2><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.InviteParamsDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteParamsDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>pageNo</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>页码</td>
+                        </tr><tr>
+                            <td><code>pageSize</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>每页记录数</td>
+                        </tr><tr>
+                            <td><code>productType</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>产品类型，01为3.0%产品，02为2.5%产品</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.BindCardWechatDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.BindCardWechatDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>reserveMobile</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>预留手机号，必填</td>
+                        </tr><tr>
+                            <td><code>inviteCode</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>邀请码，必填</td>
+                        </tr><tr>
+                            <td><code>name</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>姓名，必填</td>
+                        </tr><tr>
+                            <td><code>idNo</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>身份证，必填</td>
+                        </tr><tr>
+                            <td><code>productType</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>产品类型，二期以后必填</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.vo.UserProductPromotionVO" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.vo.UserProductPromotionVO</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>inviteNumbers</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>邀请人数</td>
+                        </tr><tr>
+                            <td><code>gmtModified</code><span class="api-required">*</span></td>
+                            <td><code>date</code></td>
+                            <td>最后更新时间</td>
+                        </tr><tr>
+                            <td><code>userNo</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>用户唯一编号，员工为工号</td>
+                        </tr><tr>
+                            <td><code>id</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>主键id</td>
+                        </tr><tr>
+                            <td><code>userType</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>用户类型,1员工账号</td>
+                        </tr><tr>
+                            <td><code>gmtCreate</code><span class="api-required">*</span></td>
+                            <td><code>date</code></td>
+                            <td>创建时间</td>
+                        </tr><tr>
+                            <td><code>productType</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>产品类型</td>
+                        </tr><tr>
+                            <td><code>productInfo</code><span class="api-required">*</span></td>
+                            <td><code><a href="#com.weidai.pay.qianfeng.service.vo.ProductInfoVO">com.weidai.pay.qianfeng.service.vo.ProductInfoVO</a></code></td>
+                            <td>产品信息对象</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.UserProductPromotionDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.UserProductPromotionDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>curPage</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>当前页码</td>
+                        </tr><tr>
+                            <td><code>userNo</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>用户唯一编号，员工为工号</td>
+                        </tr><tr>
+                            <td><code>pageSize</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>每页多少条</td>
+                        </tr><tr>
+                            <td><code>userType</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>用户类型,1员工账号</td>
+                        </tr><tr>
+                            <td><code>productType</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>产品类型</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.vo.ProductInfoVO" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.vo.ProductInfoVO</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>interestRate</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>产品利率</td>
+                        </tr><tr>
+                            <td><code>maxLimitAmount</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>最大投资限额</td>
+                        </tr><tr>
+                            <td><code>productDesc</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>产品描述</td>
+                        </tr><tr>
+                            <td><code>gmtModified</code><span class="api-required">*</span></td>
+                            <td><code>date</code></td>
+                            <td>修改时间</td>
+                        </tr><tr>
+                            <td><code>minLimitAmount</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>最小投资限额</td>
+                        </tr><tr>
+                            <td><code>totalLimitAmount</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>产品总限额</td>
+                        </tr><tr>
+                            <td><code>id</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>主键id</td>
+                        </tr><tr>
+                            <td><code>gmtCreate</code><span class="api-required">*</span></td>
+                            <td><code>date</code></td>
+                            <td>创建时间</td>
+                        </tr><tr>
+                            <td><code>productName</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>产品名称</td>
+                        </tr><tr>
+                            <td><code>productType</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>产品类型</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.WechatSignRequest" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.WechatSignRequest</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>url</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>当前网页的url</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.InviteRankingDataInfoDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteRankingDataInfoDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>totalRanking</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>总人数名次</td>
+                        </tr><tr>
+                            <td><code>inviteNumbers</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>有效邀请人数</td>
+                        </tr><tr>
+                            <td><code>totalDailyAverageBalance</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>总日均余额</td>
+                        </tr><tr>
+                            <td><code>myDailyAverageBalanceRanking</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>我的日均余额排名</td>
+                        </tr><tr>
+                            <td><code>totalBalance</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>总余额</td>
+                        </tr><tr>
+                            <td><code>totalDailyAverageBalanceRanking</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>总日均余额名次</td>
+                        </tr><tr>
+                            <td><code>myRanking</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>有效邀请人数排名</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.InviteDataInfoDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteDataInfoDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>inviteNumbers</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>有效邀请人数</td>
+                        </tr><tr>
+                            <td><code>totalBalance</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>我的总余额</td>
+                        </tr><tr>
+                            <td><code>inviteTotalNumbers</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>邀请总人数</td>
+                        </tr><tr>
+                            <td><code>dailyAverageBalance</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>我的总日均余额</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.InviteDataUserInfoDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteDataUserInfoDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>inviteNumbers</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>有效邀请人数</td>
+                        </tr><tr>
+                            <td><code>total</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>达人总人数</td>
+                        </tr><tr>
+                            <td><code>inviteNumberRanking</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>邀请人数排名</td>
+                        </tr><tr>
+                            <td><code>name</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>达人姓名</td>
+                        </tr><tr>
+                            <td><code>totalBalanc</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>我的总余额</td>
+                        </tr><tr>
+                            <td><code>dailyAverageBalanceRanking</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>总日均余额排名</td>
+                        </tr><tr>
+                            <td><code>dailyAverageBalance</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>我的总日均余额</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.WechatUserInfoDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.WechatUserInfoDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>code</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>微信用户登录凭证code</td>
+                        </tr><tr>
+                            <td><code>authToken</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>客户端存储的authToken</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.InviteTeamRankingParamsDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteTeamRankingParamsDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>pageNo</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>页码</td>
+                        </tr><tr>
+                            <td><code>pageSize</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>每页记录数</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.UserDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.UserDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>contactMobile</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>empId</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>gmtModified</code></td>
+                            <td><code>date</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>avatarUrl</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>微信头像</td>
+                        </tr><tr>
+                            <td><code>nickName</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>微信昵称</td>
+                        </tr><tr>
+                            <td><code>deptId</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>mobile</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>memo</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>gmtCreate</code></td>
+                            <td><code>date</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>type</code></td>
+                            <td><code>number</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>idNo</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>teamNo</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>password</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>inviteCode</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>name</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>id</code></td>
+                            <td><code>number</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>email</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>status</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.VerifyCodeDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.VerifyCodeDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>phoneNumber</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>手机号</td>
+                        </tr><tr>
+                            <td><code>smsVerifyCode</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>验证码</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.InviteDataTeamInfoDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteDataTeamInfoDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>teamLogo</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>战队logo图片</td>
+                        </tr><tr>
+                            <td><code>teamName</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>战队名称</td>
+                        </tr><tr>
+                            <td><code>teamNo</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>战队编号</td>
+                        </tr><tr>
+                            <td><code>dailyAverTarget</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>团队目标</td>
+                        </tr><tr>
+                            <td><code>dailyAverCompletion</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>团队达成</td>
+                        </tr><tr>
+                            <td><code>totalBalance</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>总余额</td>
+                        </tr><tr>
+                            <td><code>teamRanking</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>战队排名</td>
+                        </tr><tr>
+                            <td><code>teamDesc</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>战队描述</td>
+                        </tr><tr>
+                            <td><code>depositAverage</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>存款均值</td>
+                        </tr><tr>
+                            <td><code>percent</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>达成进度</td>
+                        </tr><tr>
+                            <td><code>teamNumbers</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>战队人数</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.UserInfoDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.UserInfoDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>authToken</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>用户权限token</td>
+                        </tr><tr>
+                            <td><code>inviteCode</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>员工账号的邀请码，其他账号没有邀请码 </td>
+                        </tr><tr>
+                            <td><code>mobile</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>手机号</td>
+                        </tr><tr>
+                            <td><code>userType</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>用户类型，1员工账号（可以发出邀请），其他类型不能邀请 </td>
+                        </tr><tr>
+                            <td><code>userId</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>用户id</td>
+                        </tr><tr>
+                            <td><code>bindRelation</code><span class="api-required">*</span></td>
+                            <td><code>boolean</code></td>
+                            <td>是否已绑定关联关系 </td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.InviteDataDetailInfoDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteDataDetailInfoDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>reserveMobile</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>被邀请人手机号</td>
+                        </tr><tr>
+                            <td><code>name</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>被邀请人姓名</td>
+                        </tr><tr>
+                            <td><code>openCardStatus</code><span class="api-required">*</span></td>
+                            <td><code>boolean</code></td>
+                            <td>是否已开户</td>
+                        </tr><tr>
+                            <td><code>standardDesc</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>是否达标中文描述，是、否、未开户</td>
+                        </tr><tr>
+                            <td><code>applyTime</code><span class="api-required">*</span></td>
+                            <td><code>date</code></td>
+                            <td>权益申请时间</td>
+                        </tr><tr>
+                            <td><code>idNo</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>被邀请人身份证号</td>
+                        </tr><tr>
+                            <td><code>standardAccount</code><span class="api-required">*</span></td>
+                            <td><code>boolean</code></td>
+                            <td>是否达标账户</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.InviteRankingParamsDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.InviteRankingParamsDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>pageNo</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>页码</td>
+                        </tr><tr>
+                            <td><code>orderBy</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>排序类型，1按人数排序，2按日均余额排序</td>
+                        </tr><tr>
+                            <td><code>pageSize</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>每页记录数</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.ProductInfoDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.ProductInfoDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>curPage</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>当前页码</td>
+                        </tr><tr>
+                            <td><code>pageSize</code><span class="api-required">*</span></td>
+                            <td><code>number</code></td>
+                            <td>每页多少条</td>
+                        </tr><tr>
+                            <td><code>productName</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>产品名称</td>
+                        </tr><tr>
+                            <td><code>productType</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>产品类型</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="java.lang.Object" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>java.lang.Object</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.dto.WechatSignInfoDto" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.dto.WechatSignInfoDto</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>signature</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>必填，签名</td>
+                        </tr><tr>
+                            <td><code>appId</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>必填，公众号的唯一标识</td>
+                        </tr><tr>
+                            <td><code>nonceStr</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>必填，生成签名的随机串</td>
+                        </tr><tr>
+                            <td><code>timestamp</code><span class="api-required">*</span></td>
+                            <td><code>string</code></td>
+                            <td>必填，生成签名的时间戳</td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.entify.PageBean&lt;T&gt;" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.entify.PageBean&lt;T&gt;</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>curPage</code></td>
+                            <td><code>number</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>data</code></td>
+                            <td><code><a href="#java.lang.Object">java.lang.Object</a></code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>endRecordCount</code></td>
+                            <td><code>number</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>recordCount</code></td>
+                            <td><code>number</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>pageSize</code></td>
+                            <td><code>number</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>startRecordCount</code></td>
+                            <td><code>number</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>list</code></td>
+                            <td><code>object[]</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>maxPage</code></td>
+                            <td><code>number</code></td>
+                            <td></td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.entify.WebResult&lt;T&gt;" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.entify.WebResult&lt;T&gt;</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>count2</code></td>
+                            <td><code>number</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>code</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>redirectUrl</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>data</code></td>
+                            <td><code>object</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>success</code></td>
+                            <td><code>boolean</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>count</code></td>
+                            <td><code>number</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>message</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr></table></div></section><section class="api-panel"><h3 id="com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;" onclick="togglePanel(this)"><label class="api-label api-label-info">CLASS</label>com.weidai.pay.qianfeng.service.entify.ServiceResult&lt;T&gt;</h3><div class="api-panel-body"><table class="api-table">
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Summary</th>
+                        </tr><tr>
+                            <td><code>code</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>data</code></td>
+                            <td><code>object</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>success</code></td>
+                            <td><code>boolean</code></td>
+                            <td></td>
+                        </tr><tr>
+                            <td><code>message</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                        </tr></table></div></section>
+		</article>
+	</div>
+	<script>
+		function tab(code, event) {
+			if (event.keyCode === 9) {
+				event.preventDefault();
+				code.ownerDocument.execCommand('insertHTML', false, "    ");
+			}
+		}
+
+		function togglePanel(header) {
+			header.parentNode.className = header.parentNode.className == "api-panel" ? "api-panel api-panel-col" : "api-panel";
+		}
+
+		function toggleSection(header) {
+			header.nextElementSibling.style.display = header.nextElementSibling.style.display ? "" : "none";
+		}
+
+		function setFilter(value) {
+			var items = document.querySelectorAll('#api_sidebar li')
+			for (var i = 0; i < items.length; i++) {
+				var item = items[i]
+				if (item.firstChild.nextSibling) {
+					continue
+				}
+				item.style.display = ''
+				if (item.firstChild.title.indexOf(value) < 0) {
+					item.style.display = 'none'
+				}
+			}
+			for (var i = 0; i < items.length; i++) {
+				var item = items[i]
+				if (!item.firstChild.nextSibling) {
+					continue
+				}
+				item.style.display = ''
+				if (!item.firstChild.nextSibling.offsetHeight) {
+					item.style.display = 'none'
+				}
+			}
+		}
+		
+		function send(send, url, method, contentType) {
+			if (!send._reset) {
+				send._reset = function() {
+					delete send._xhr;
+					clearInterval(send._timer);
+					send.className = "api-send";
+					send.innerHTML = "Send";
+				};
+			}
+			if (send._xhr) {
+				send._xhr.abort();
+				send._reset();
+				return;
+			}
+			contentType = contentType || "application/json";
+			var req = send.previousElementSibling && send.previousElementSibling.firstElementChild;
+			var res = send.parentNode.lastElementChild;
+			if (res === send) {
+				var div = document.createElement("div");
+				div.innerHTML = '<h4>Response</h4><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"></code></pre>';
+				res = div.lastChild.firstChild;
+				send.parentNode.insertBefore(div.lastChild, send.nextElementSibling);
+				send.parentNode.insertBefore(div.lastChild, send.nextElementSibling);
+			} else {
+				res = res.firstElementChild;
+			}
+			var data = req ? req.textContent.replace(/\/\/.*$/gm, "") : null;
+			if (data != null && contentType === "application/json") {
+				try {
+					data = eval("(" + data + ")");
+				} catch (e) {
+					res.textContent = "// Error: Cannot parse request parameters: " + e.message;
+					return;
+				}
+				data = JSON.stringify(data);
+			}
+			var time = 1;
+			send.className = "api-send api-send-abort";
+			send.innerHTML = "Abort (" + time++ + "s)";
+			send._timer = setInterval(() => {
+				send.innerHTML = "Abort (" + time++ + "s)";
+			}, 1000);
+			send._xhr = ajax({
+				url: document.getElementById("url").value + url,
+				type: method || "POST",
+				data: data,
+				contentType: contentType,
+				complete: function(status, statusText, data) {
+					send._reset();
+					if (status !== 200) {
+						res.textContent = "// " + this.type + " " + this.url + "\n";
+						if (status === 0) {
+							res.textContent += "// Cannot connect to server. (Cross domain issue?)";
+						} else {
+							res.textContent += "// " + status + " - " + statusText + "\n" + data;
+						}
+					} else {
+						if (contentType === "application/json") {
+							try {
+								data = JSON.parse(data);
+							} catch (e) {
+								res.textContent = "// Error: Cannot parse response data: " + e.message;
+								return;
+							}
+							data = JSON.stringify(data, undefined, 4);
+						} else {
+							try {
+								data = JSON.stringify(JSON.parse(data), undefined, 4);
+							} catch (e) {}
+						}
+						res.textContent = data;
+					}
+				}
+			});
+		}
+
+		function ajax(options) {
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === 4) {
+					xhr.onreadystatechange = null;
+					options.complete(xhr.status, xhr.statusText, xhr.responseText);
+				}
+			};
+			xhr.withCredentials = true;
+			xhr.open(options.type, options.url, true);
+			if (options.type !== "GET" && options.contentType) {
+				xhr.setRequestHeader("Content-Type", options.contentType);
+			}
+			xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+			xhr.send(options.data);
+			return xhr;
+		}
+
+		if (localStorage.api_url) {
+			document.getElementById("url").value = localStorage.api_url;
+		}
+		document.getElementById("url").onchange = function() {
+			localStorage.api_url = document.getElementById("url").value;
+		};
+	</script>
+
+</body>
+
+</html>
